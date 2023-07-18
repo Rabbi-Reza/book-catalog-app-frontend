@@ -1,4 +1,5 @@
 import App from '@/App';
+import AddBook from '@/pages/AddBook';
 import Checkout from '@/pages/Checkout';
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
@@ -31,6 +32,14 @@ const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Checkout />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/add-book',
+        element: (
+          <PrivateRoute>
+            <AddBook />
           </PrivateRoute>
         ),
       },
