@@ -1,13 +1,18 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
+import { useSingleBookQuery } from '@/redux/features/book/bookApi';
 import { useSingleProductQuery } from '@/redux/features/products/productApi';
+import { useAppSelector } from '@/redux/hook';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
+  const { user } = useAppSelector((state) => state.user);
+
+
   const { id } = useParams();
-  const { data: product, isLoading, error } = useSingleProductQuery(id)
+  const { data: product, isLoading, error } = useSingleBookQuery(id)
 
   //! Temporary code, should be replaced with redux
   // const [data, setData] = useState<IProduct[]>([]);
@@ -21,14 +26,18 @@ export default function ProductDetails() {
 
   //! Temporary code ends here
 
+  console.log('product',product)
   return (
     <>
+    
       <div className="flex max-w-7xl mx-auto items-center border-b border-gray-300">
+      {user.email === product.data.uploader && <Button>Update</Button>}
+      
         <div className="w-[50%]">
           <img src={product?.image} alt="" />
         </div>
         <div className="w-[50%] space-y-3">
-          <h1 className="text-3xl font-semibold">{product?.name}</h1>
+          <h1 className="text-3xl font-semibold">{product?.data.title}</h1>
           <p className="text-xl">Rating: {product?.rating}</p>
           <ul className="space-y-1 text-lg">
             {product?.features?.map((feature: string) => (
@@ -38,7 +47,7 @@ export default function ProductDetails() {
           <Button>Add to cart</Button>
         </div>
       </div>
-      <ProductReview id={id!} />
+      {/* <ProductReview id={id!} /> */}
     </>
   );
 }
