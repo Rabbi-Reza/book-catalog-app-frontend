@@ -1,21 +1,21 @@
-import { auth } from '@/lib/firebase';
-import { setUser } from '@/redux/features/user/userSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { signOut } from 'firebase/auth';
-import { HiOutlineSearch } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/technet-logo.png';
-import Cart from '../components/Cart';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
+import { DropdownMenuSeparator } from '../components/ui/dropdown-menu';
+import { DropdownMenuLabel } from '../components/ui/dropdown-menu';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  DropdownMenu,
   DropdownMenuTrigger,
+  DropdownMenuContent,
 } from '../components/ui/dropdown-menu';
+import Wishlist from '../components/Wishlist';
+import logo from '../assets/images/book-catelogue-logo.png';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { setUser } from '@/redux/features/user/userSlice';
+import SearchBox from '@/components/SeachBox';
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
@@ -24,8 +24,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     console.log('Logout');
-
     signOut(auth).then(() => {
+      // Sign-out successful.
       dispatch(setUser(null));
     });
   };
@@ -46,29 +46,14 @@ export default function Navbar() {
               </li>
               <li>
                 <Button variant="link" asChild>
-                  <Link to="/products">All Books</Link>
-                </Button>
-              </li>
-              {user.email && (
-                <li>
-                  <Button variant="link" asChild>
-                    <Link to="/add-book">Add Book</Link>
-                  </Button>
-                </li>
-              )}
-
-              <li>
-                <Button variant="link" asChild>
-                  <Link to="/checkout">Checkout</Link>
+                  <Link to="/books">All Books</Link>
                 </Button>
               </li>
               <li>
-                <Button variant="ghost">
-                  <HiOutlineSearch size="25" />
-                </Button>
+                <SearchBox />
               </li>
               <li>
-                <Cart />
+                <Wishlist />
               </li>
               <li className="ml-5">
                 <DropdownMenu>
@@ -81,17 +66,11 @@ export default function Navbar() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer">
-                      Profile
-                    </DropdownMenuItem>
-                    {/* <DropdownMenuItem className="cursor-pointer">
-                      Billing
-                    </DropdownMenuItem> */}
                     {!user.email && (
                       <>
                         <Link to="/login">
                           <DropdownMenuItem className="cursor-pointer">
-                            Login
+                            Sign In
                           </DropdownMenuItem>
                         </Link>
                         <Link to="/signup">
@@ -101,22 +80,21 @@ export default function Navbar() {
                         </Link>
                       </>
                     )}
-
                     {user.email && (
-                      <DropdownMenuItem
-                        onClick={handleLogout}
-                        className="cursor-pointer"
-                      >
-                        Logout
-                      </DropdownMenuItem>
+                      <>
+                        <Link to="/add-book">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Add New Book
+                          </DropdownMenuItem>
+                        </Link>
+                        <DropdownMenuItem
+                          onClick={handleLogout}
+                          className="cursor-pointer"
+                        >
+                          Logout
+                        </DropdownMenuItem>
+                      </>
                     )}
-
-                    {/* <DropdownMenuItem className="cursor-pointer">
-                      Team
-                    </DropdownMenuItem> */}
-                    {/* <DropdownMenuItem className="cursor-pointer">
-                      Subscription
-                    </DropdownMenuItem> */}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

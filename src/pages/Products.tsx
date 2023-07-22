@@ -1,86 +1,102 @@
 import ProductCard from '@/components/ProductCard';
-import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
-import { useToast } from '@/components/ui/use-toast';
-import { useGetBooksQuery } from '@/redux/features/book/bookApi';
+import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import {
-  setPriceRange,
-  toggleState,
+  setGenre,
+  setPublicationYear,
 } from '@/redux/features/products/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { IBook } from '@/types/globalTypes';
+import { IProduct } from '@/types/globalTypes';
+import { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 export default function Products() {
-  // const [data, setData] = useState<IProduct[]>([]);
-  // useEffect(() => {
-  //   fetch('./data.json')
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data));
-  // }, []);
+  const { data, isLoading } = useGetProductsQuery(undefined);
 
-  const { data, isLoading, error } = useGetBooksQuery(undefined);
-
-  const { toast } = useToast();
-
-  const { priceRange, status } = useAppSelector((state) => state.product);
+  const { genre, publicationYear } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
 
-  //! Dummy Data
+  // Use local state to store the available genres
+  const [genres, setGenres] = useState<string[]>([]);
 
-  // const status = true;
-  // const priceRange = 100;
+  useEffect(() => {
+    if (data && data.data) {
+      const uniqueGenres = [
+        ...new Set(data.data.map((item: IProduct) => item.genre)),
+      ];
+      setGenres(uniqueGenres as string[]);
+    }
+  }, [data]);
 
-  //! **
+  const handleGenreChange = (value: string) => {
+    dispatch(setGenre(value));
+  };
 
-  console.log('data', data);
-
-  const handleSlider = (value: number[]) => {
-    // console.log(value);
-    dispatch(setPriceRange(value[0]));
+  const handlePublicationYearChange = (value: number[]) => {
+    dispatch(setPublicationYear(value[0]));
   };
 
   let productsData;
 
-  if (status) {
-    // productsData = data?.data.filter(
-    //   (item: { status: boolean; price: number; }) => item.status === true && item.price < priceRange
-    // );
-  } else if (priceRange > 0) {
-    // productsData = data?.data.filter((item: { price: number; }) => item.price < priceRange);
+  if (!genre || !publicationYear) {
+    productsData = data?.data;
+  } else if (genre !== 'All') {
+    productsData = data?.data?.filter(
+      (item: { genre: string }) => item.genre === genre
+    );
+    console.log('productsDataByGenre', productsData);
+  } else if (publicationYear > 0) {
+    productsData = data?.data?.filter(
+      (item: { publicationYear: number }) =>
+        item.publicationYear < publicationYear
+    );
   } else {
     productsData = data?.data;
+    console.log('productsData', JSON.stringify(productsData));
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ReactLoading type="spin" color="#000" />
+      </div>
+    );
   }
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
       <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
-        <div>
-          <h1 className="text-2xl uppercase">Availability</h1>
-          <div
-            onClick={() => dispatch(toggleState())}
-            className="flex items-center space-x-2 mt-3"
+        <div className="space-y-3">
+          <h1 className="text-2xl uppercase">Genre</h1>
+          <select
+            className="max-w-xl w-full p-2 border border-gray-300 rounded-md"
+            onChange={(e) => handleGenreChange(e.target.value)}
+            value={genre}
           >
-            <Switch id="in-stock" />
-            <Label htmlFor="in-stock">In stock</Label>
-          </div>
+            <option value="All">All</option>
+            {genres.map((genreOption) => (
+              <option key={genreOption} value={genreOption}>
+                {genreOption}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="space-y-3 ">
-          <h1 className="text-2xl uppercase">Price Range</h1>
+          <h1 className="text-2xl uppercase">Publication Year</h1>
           <div className="max-w-xl">
             <Slider
-              defaultValue={[150]}
-              max={150}
-              min={0}
+              defaultValue={[2023]}
+              max={2023}
+              min={1455}
               step={1}
-              onValueChange={(value) => handleSlider(value)}
+              onValueChange={(value) => handlePublicationYearChange(value)}
             />
           </div>
-          <div>From 0$ To {priceRange}$</div>
+          <div>From 1455$ To {publicationYear}$</div>
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-        {data?.data?.map((product: IBook) => (
+        {productsData?.map((product: IProduct) => (
           <ProductCard product={product} />
         ))}
       </div>

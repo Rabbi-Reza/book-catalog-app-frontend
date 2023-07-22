@@ -1,10 +1,10 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect } from 'react';
 import { Toaster } from './components/ui/Toaster';
 import MainLayout from './layouts/MainLayout';
 import { auth } from './lib/firebase';
-import { setLoading, setUser } from './redux/features/user/userSlice';
 import { useAppDispatch } from './redux/hook';
+import { setLoading, setUser } from './redux/features/user/userSlice';
+import { useEffect } from 'react';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -29,6 +29,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;

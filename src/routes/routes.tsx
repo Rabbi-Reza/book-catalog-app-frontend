@@ -1,14 +1,14 @@
+import { createBrowserRouter } from 'react-router-dom';
 import App from '@/App';
-import AddBook from '@/pages/AddBook';
-import Checkout from '@/pages/Checkout';
-import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
-import ProductDetails from '@/pages/ProductDetails';
+import Home from '@/pages/Home';
 import Products from '@/pages/Products';
 import Signup from '@/pages/Signup';
-import { createBrowserRouter } from 'react-router-dom';
+import ProductDetails from '@/pages/ProductDetails';
 import PrivateRoute from './PrivateRoute';
+import EditBook from '@/pages/EditBook';
+import AddBook from '@/pages/AddBook';
 
 const routes = createBrowserRouter([
   {
@@ -20,26 +20,26 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/products',
+        path: '/books',
         element: <Products />,
       },
       {
-        path: '/product-details/:id',
+        path: '/book/:id',
         element: <ProductDetails />,
-      },
-      {
-        path: '/checkout',
-        element: (
-          <PrivateRoute>
-            <Checkout />
-          </PrivateRoute>
-        ),
       },
       {
         path: '/add-book',
         element: (
           <PrivateRoute>
-            <AddBook />
+            <AddBook />,
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/edit-book/:id',
+        element: (
+          <PrivateRoute>
+            <EditBook />,
           </PrivateRoute>
         ),
       },

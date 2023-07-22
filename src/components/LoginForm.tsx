@@ -2,16 +2,15 @@
 
 import * as React from 'react';
 
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
-import { loginUser } from '@/redux/features/user/userSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { loginUser } from '@/redux/features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -72,10 +71,10 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
             />
             {errors.password && <p>{errors.password.message}</p>}
           </div>
-          <Button>Login with email</Button>
+          <Button>Sign In</Button>
         </div>
       </form>
-      <div className="relative">
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -92,7 +91,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
       >
         <p>Google</p>
         <FcGoogle />
-      </Button>
+      </Button> */}
     </div>
   );
 }

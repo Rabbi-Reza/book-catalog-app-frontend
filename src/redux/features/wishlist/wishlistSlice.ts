@@ -1,38 +1,36 @@
 import { IProduct } from '@/types/globalTypes';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface ICart {
+interface IWishlist {
   products: IProduct[];
-  total: number;
 }
 
-const initialState: ICart = {
+const initialState: IWishlist = {
   products: [],
-  total: 0,
-  
 };
 
-const cartSlice = createSlice({
-  name: 'cart',
+const wishlistSlice = createSlice({
+  name: 'wishlist',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<IProduct>) => {
+    addToWishlist: (state, action: PayloadAction<IProduct>) => {
       const existing = state.products.find(
         (product) => product._id === action.payload._id
       );
+
       if (existing) {
         existing.quantity = existing.quantity! + 1;
       } else {
         state.products.push({ ...action.payload, quantity: 1 });
       }
 
-      state.total += action.payload.price;
     },
     removeOne: (state, action: PayloadAction<IProduct>) => {
       const existing = state.products.find(
         (product) => product._id === action.payload._id
       );
+
       if (existing && existing.quantity! > 1) {
         existing.quantity = existing.quantity! - 1;
       } else {
@@ -40,19 +38,15 @@ const cartSlice = createSlice({
           (product) => product._id !== action.payload._id
         );
       }
-
-      state.total -= action.payload.price;
     },
-    removeFromCart: (state, action: PayloadAction<IProduct>) => {
+    removeFromWishlist: (state, action: PayloadAction<IProduct>) => {
       state.products = state.products.filter(
         (product) => product._id !== action.payload._id
       );
-
-      state.total -= action.payload.price * action.payload.quantity!;
     },
   },
 });
 
-export const { addToCart, removeOne, removeFromCart } = cartSlice.actions;
+export const { addToWishlist, removeFromWishlist, removeOne } = wishlistSlice.actions;
 
-export default cartSlice.reducer;
+export default wishlistSlice.reducer;

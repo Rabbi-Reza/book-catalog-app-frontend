@@ -1,8 +1,8 @@
-import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
-import logo from '../assets/images/technet-logo-white.png';
+import { buttonVariants } from '@/components/ui/button';
 import { SignupForm } from '../components/SignUpForm';
+import { Link } from 'react-router-dom';
+import logo from '../assets/images/book-catelogue-logo.png';
 
 export default function Signup() {
   return (

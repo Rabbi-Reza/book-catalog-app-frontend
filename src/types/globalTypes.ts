@@ -9,12 +9,13 @@
 //   quantity?: number;
 // }
 
-export interface IBook {
-  _id: number;
+export interface IProduct {
+  _id?: number;
   title: string;
+  image: string;
   author: string;
   genre: string;
-  publicationDate: string;
-  reviews?: string[];
-  uploader: string;
+  publicationYear: number;
+  quantity?: number;
+  user?: string;
 }
