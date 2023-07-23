@@ -4,7 +4,7 @@ import { setUser } from '@/redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { signOut } from 'firebase/auth';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/book-catelogue-logo.png';
+import logo from '../assets/images/book2.jpg';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import {
@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between w-full md:max-w-7xl h-full mx-auto ">
           <div>
             <Link to="/">
-              <img className="h-8" src={logo} alt="log" />
+              <img className="h-16" src={logo} alt="log" /> 
             </Link>
           </div>
           <div>
