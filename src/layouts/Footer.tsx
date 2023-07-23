@@ -1,4 +1,3 @@
-import logo from '@/assets/images/book2.jpg';
 import { RiFacebookBoxFill, RiInstagramLine } from 'react-icons/ri';
 export default function Footer() {
   const date = new Date();
