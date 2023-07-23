@@ -1,21 +1,21 @@
-import { Link } from 'react-router-dom';
-import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
-import { Button } from '../components/ui/button';
-import { DropdownMenuSeparator } from '../components/ui/dropdown-menu';
-import { DropdownMenuLabel } from '../components/ui/dropdown-menu';
-import {
-  DropdownMenuItem,
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-} from '../components/ui/dropdown-menu';
-import Wishlist from '../components/Wishlist';
-import logo from '../assets/images/book-catelogue-logo.png';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { signOut } from 'firebase/auth';
+import SearchBox from '@/components/SeachBox';
 import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/features/user/userSlice';
-import SearchBox from '@/components/SeachBox';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { signOut } from 'firebase/auth';
+import { Link } from 'react-router-dom';
+import logo from '../assets/images/book-catelogue-logo.png';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { Button } from '../components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
+import Wishlist from '../components/Wishlist';
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
@@ -35,7 +35,9 @@ export default function Navbar() {
       <div className="h-full w-full bg-white/60">
         <div className="flex items-center justify-between w-full md:max-w-7xl h-full mx-auto ">
           <div>
-            <img className="h-8" src={logo} alt="log" />
+            <Link to="/">
+              <img className="h-8" src={logo} alt="log" />
+            </Link>
           </div>
           <div>
             <ul className="flex items-center">

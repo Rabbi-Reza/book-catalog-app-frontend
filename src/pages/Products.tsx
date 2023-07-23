@@ -92,7 +92,7 @@ export default function Products() {
               onValueChange={(value) => handlePublicationYearChange(value)}
             />
           </div>
-          <div>From 1455$ To {publicationYear}$</div>
+          <div>From 1455 To {publicationYear}</div>
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
