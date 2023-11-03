@@ -25,7 +25,7 @@ export default function Home() {
     <>
       {!keyword ? (
         <>
-          <div className="mb-96">
+          <div className="mb-9">
             <div className="flex flex-col items-center justify-center lg:justify-start">
               <h1 className="text-5xl font-black text-primary uppercase mt-10 mb-5">
                 RECENTLY ADDED
